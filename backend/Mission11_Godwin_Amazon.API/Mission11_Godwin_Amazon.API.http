@@ -1,0 +1,6 @@
+@Mission11_Godwin_Amazon.API_HostAddress = http://localhost:5052
+
+GET {{Mission11_Godwin_Amazon.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
