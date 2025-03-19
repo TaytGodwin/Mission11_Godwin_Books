@@ -5,6 +5,7 @@ namespace Mission11_Godwin_Amazon.API.Data
     public class Book
     {
         [Key]
+        [Required]
         public int BookID { get; set; }
         [Required]
         public string Title { get; set; }
@@ -22,7 +23,7 @@ namespace Mission11_Godwin_Amazon.API.Data
         public int PageCount { get; set; }
 
         [Required]
-        public float Price { get; set; }
+        public double Price { get; set; }
     
     }
 }

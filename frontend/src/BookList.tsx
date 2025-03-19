@@ -3,17 +3,18 @@ import { Book } from './types/Book';
 
 function BookList() {
   const [Books, setBooks] = useState<Book[]>([]); // Holds an array of books
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
   const [totalBooks, setTotalBooks] = useState<number>(0); // Keeps track of total number of books
   const [totalPages, setTotalPages] = useState<number>(0); // Number of separate pages you will have
+  const [sortByPreference, setSortByPreference] = useState('Title'); // To help the system know what to order the books by
 
   // Get list of books, but only when necessary
   useEffect(() => {
     const fetchBooks = async () => {
       // Function to get books
       const response = await fetch(
-        `https://localhost:5000/api/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}`
+        `https://localhost:5000/api/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortBy=${sortByPreference}`
       );
       const data = await response.json();
       // Set variable
@@ -23,33 +24,36 @@ function BookList() {
     };
     // Call the function
     fetchBooks();
-  }, [pageSize, pageNum, totalBooks]);
+  }, [pageSize, pageNum, totalBooks, sortByPreference]); // app will watch to see if these change
   return (
     <>
-      <h1>Book List</h1>
+      <h1 className="text-center mb-4">Book List</h1>
       <br />
       {Books.map((b) => (
-        <div id="projectCard" className="card" key={b.bookID}>
+        <div id="projectCard" className="card shadow-lg mb-4" key={b.bookID}>
           <h3 className="card-title">{b.title}</h3>
           <div className="card-body">
             <ul className="list-unstyled">
-              <li>
+              <li className="list-group-item">
                 <strong>Author:</strong> {b.author}
               </li>
-              <li>
+              <li className="list-group-item">
                 <strong>Publisher:</strong> {b.publisher}
               </li>
-              <li>
+              <li className="list-group-item">
                 <strong>ISBN:</strong> {b.isbn}
               </li>
-              <li>
+              <li className="list-group-item">
                 <strong>Classification:</strong> {b.classification}
               </li>
-              <li>
+              <li className="list-group-item">
                 <strong>Category:</strong> {b.category}
               </li>
-              <li>
+              <li className="list-group-item">
                 <strong>Page Count:</strong> {b.pageCount}
+              </li>
+              <li className="list-group-item">
+                <strong>Price:</strong> ${b.price}
               </li>
             </ul>
           </div>
@@ -57,49 +61,82 @@ function BookList() {
       ))}
       <br />
       <br />
-      <label>
-        Results per page:
-        <select
-          value={pageSize}
-          onChange={(p) => {
-            setPageSize(Number(p.target.value)); // Sends what is selected
-            setPageNum(1);
-          }}
-        >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-        </select>
-      </label>
 
-      <button disabled={pageNum === 1} onClick={() => setPageNum(pageNum - 1)}>
-        {/*Subtract 1 from current page number to disable it*/}
-        Previous
-      </button>
-      {[...Array(totalPages)].map(
-        // Array of the total number of pages
-        (
-          _,
-          index // Index starts at 0 and counts on
-        ) => (
-          <button
-            key={index + 1}
-            onClick={() => setPageNum(index + 1)}
-            disabled={pageNum === index + 1}
+      <nav className="d-flex justify-content-center mt-4">
+        <ul className="pagination">
+          <li className={`page-item ${pageNum === 1 ? 'disabled' : ''}`}>
+            {/*Disables button if page 1 is selected*/}
+            <button
+              className="page-link"
+              onClick={() => setPageNum(pageNum - 1)}
+            >
+              Previous
+            </button>
+          </li>
+          {[...Array(totalPages)].map(
+            (
+              _,
+              index // Maps out array to make the number of pages calculated above
+            ) => (
+              <li
+                key={index + 1}
+                className={`page-item ${pageNum === index + 1 ? 'active' : ''}`} // Puts on specific styling based on the selected page
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setPageNum(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            )
+          )}
+          <li
+            className={`page-item ${pageNum === totalPages ? 'disabled' : ''}`}
           >
-            {/* Sets what page you are on */}
-            {index + 1}
-            {/* Shows page number */}
-          </button>
-        )
-      )}
-      <button
-        disabled={pageNum === totalPages}
-        onClick={() => setPageNum(pageNum + 1)}
-      >
-        Next
-      </button>
-      {/*Add 1 to current page number*/}
+            {/*Disables button if last page is selected*/}
+            <button
+              className="page-link"
+              onClick={() => setPageNum(pageNum + 1)}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Filters */}
+      <div className="d-flex justify-content-center gap-3 mt-4">
+        <div className="form-group">
+          <label className="me-2 fw-bold">Results per page:</label>
+          <select
+            className="form-select d-inline w-auto"
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value)); // Sets page size based on selection user chooses
+              setPageNum(1);
+            }}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label className="me-2 fw-bold">Sort By:</label>
+          <select
+            className="form-select d-inline w-auto"
+            value={sortByPreference}
+            onChange={(e) => setSortByPreference(e.target.value)} // Set the preference based on selection
+          >
+            <option value="Title">Title</option>
+            <option value="Author">Author</option>
+            <option value="Category">Category</option>
+            <option value="Price">Price</option>
+          </select>
+        </div>
+      </div>
     </>
   );
 }
