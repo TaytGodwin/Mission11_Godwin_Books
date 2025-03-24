@@ -15,15 +15,23 @@ namespace Mission11_Godwin_Amazon.API.Controllers
         public BookController(BookDbContext bookDbContext) => _bookDbContext = bookDbContext; // Set instance
 
         [HttpGet("AllBooks")] // Get all books
-        public IActionResult GetBooks(int pageSize=5, int pageNum =1, string sortBy="Title") // parameters
+        public IActionResult GetBooks(int pageSize=5, int pageNum =1, string sortBy="Title", [FromQuery] List<string>? BookCategories=null) // parameters
         {
-            var AllBooks = _bookDbContext.Books
+            // IQueryable are built one thing at a time
+            var query = _bookDbContext.Books.AsQueryable();
+            
+            if (BookCategories != null && BookCategories.Any()) // Check if book categories are not null
+            {
+                query = query.Where(c => BookCategories.Contains(c.Category)); // Only get project types when they are in the list
+            }
+
+            var AllBooks = query // Narrowed down, filtered list
                 .OrderBy(sortBy) // Uses using System.Linq.Dynamic.Core; to sort by the preference that the user gave
                 .Skip((pageNum-1)*pageSize) // Skips the page size amount until it gets to the page you are on
                 .Take(pageSize) // Sends how many the user selected
                 .ToList();
 
-            var totalNumBooks = _bookDbContext.Books.Count();
+            var totalNumBooks = query.Count();
 
             var TotalObject = new
                             {
@@ -32,6 +40,17 @@ namespace Mission11_Godwin_Amazon.API.Controllers
                             };
 
             return Ok(TotalObject);
+        }
+
+        [HttpGet("GetCategories")]
+        public IActionResult GetCategories ()
+        {
+            var AllCategories = _bookDbContext.Books
+                .Select(b => b.Category)
+                .Distinct() // Get distinc categories from the books table
+                .ToList();
+
+            return Ok(AllCategories);
         }
 
     }

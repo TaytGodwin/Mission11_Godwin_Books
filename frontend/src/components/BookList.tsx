@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Book } from './types/Book';
+import { Book } from '../types/Book';
 
-function BookList() {
+function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [Books, setBooks] = useState<Book[]>([]); // Holds an array of books
   const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
@@ -12,9 +12,13 @@ function BookList() {
   // Get list of books, but only when necessary
   useEffect(() => {
     const fetchBooks = async () => {
+      // This is used to filter the books based on category
+      const categoryParams = selectedCategories
+        .map((cat) => `projectTypes=${encodeURIComponent(cat)}`) // encodedURIComponent is used for security
+        .join('&'); // for each category, it formats it and joins it with & in the middle
       // Function to get books
       const response = await fetch(
-        `https://localhost:5000/api/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortBy=${sortByPreference}`
+        `https://localhost:5000/api/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortBy=${sortByPreference}${selectedCategories.length ? `& ${categoryParams}` : ''}` // This sends how many boxes are selected among other parameters
       );
       const data = await response.json();
       // Set variable
@@ -24,11 +28,9 @@ function BookList() {
     };
     // Call the function
     fetchBooks();
-  }, [pageSize, pageNum, totalBooks, sortByPreference]); // app will watch to see if these change
+  }, [pageSize, pageNum, totalBooks, sortByPreference, selectedCategories]); // app will watch to see if these change
   return (
     <>
-      <h1 className="text-center mb-4">Book List</h1>
-      <br />
       {Books.map((b) => (
         <div id="projectCard" className="card shadow-lg mb-4" key={b.bookID}>
           <h3 className="card-title">{b.title}</h3>
