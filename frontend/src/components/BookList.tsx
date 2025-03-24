@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
+import './CategoryFilter.css';
+import { useNavigate } from 'react-router-dom';
 
 function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [Books, setBooks] = useState<Book[]>([]); // Holds an array of books
@@ -8,17 +10,18 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [totalBooks, setTotalBooks] = useState<number>(0); // Keeps track of total number of books
   const [totalPages, setTotalPages] = useState<number>(0); // Number of separate pages you will have
   const [sortByPreference, setSortByPreference] = useState('Title'); // To help the system know what to order the books by
+  const navigate = useNavigate(); // Uses navigate
 
   // Get list of books, but only when necessary
   useEffect(() => {
     const fetchBooks = async () => {
       // This is used to filter the books based on category
-      const categoryParams = selectedCategories
-        .map((cat) => `projectTypes=${encodeURIComponent(cat)}`) // encodedURIComponent is used for security
+      const categories = selectedCategories
+        .map((cat) => `categoryTypes=${encodeURIComponent(cat)}`) // encodedURIComponent is used for security
         .join('&'); // for each category, it formats it and joins it with & in the middle
       // Function to get books
       const response = await fetch(
-        `https://localhost:5000/api/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortBy=${sortByPreference}${selectedCategories.length ? `& ${categoryParams}` : ''}` // This sends how many boxes are selected among other parameters
+        `https://localhost:5000/api/Book/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortBy=${sortByPreference}${selectedCategories.length ? `&${categories}` : ''}` // This sends how many boxes are selected among other parameters
       );
       const data = await response.json();
       // Set variable
@@ -58,6 +61,12 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                 <strong>Price:</strong> ${b.price}
               </li>
             </ul>
+            <button
+              className="btn btn-success"
+              onClick={() => navigate(`/buy/${b.title}/${b.bookID}/${b.price}`)}
+            >
+              Purchase Book
+            </button>
           </div>
         </div>
       ))}

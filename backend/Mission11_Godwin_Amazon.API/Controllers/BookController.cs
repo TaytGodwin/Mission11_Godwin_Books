@@ -15,14 +15,14 @@ namespace Mission11_Godwin_Amazon.API.Controllers
         public BookController(BookDbContext bookDbContext) => _bookDbContext = bookDbContext; // Set instance
 
         [HttpGet("AllBooks")] // Get all books
-        public IActionResult GetBooks(int pageSize=5, int pageNum =1, string sortBy="Title", [FromQuery] List<string>? BookCategories=null) // parameters
+        public IActionResult GetBooks(int pageSize=5, int pageNum =1, string sortBy="Title", [FromQuery] List<string>? categoryTypes=null) // parameters
         {
             // IQueryable are built one thing at a time
             var query = _bookDbContext.Books.AsQueryable();
             
-            if (BookCategories != null && BookCategories.Any()) // Check if book categories are not null
+            if (categoryTypes != null && categoryTypes.Any()) // Check if book categories are not null
             {
-                query = query.Where(c => BookCategories.Contains(c.Category)); // Only get project types when they are in the list
+                query = query.Where(c => categoryTypes.Contains(c.Category)); // Only get project types when they are in the list
             }
 
             var AllBooks = query // Narrowed down, filtered list
