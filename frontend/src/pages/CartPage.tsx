@@ -6,12 +6,8 @@ import { useEffect, useState } from 'react';
 
 function CartPage() {
   const navigate = useNavigate();
-  const { cart, numItems, totalPrice, clearCart, removeFromCart } = useCart(); // Gets the context file that was build
-  const [subtotal, setSubtotal] = useState(0);
-  useEffect(() => {
-    const sumTotal = cart.reduce((tot, c) => tot + c.price * c.quantity, 0);
-    setSubtotal(sumTotal);
-  }, [cart]);
+  const { cart, totalPrice, clearCart, removeFromCart } = useCart(); // Gets the context file that was build
+
   return (
     <>
       <div className="container-fluid">
@@ -53,7 +49,10 @@ function CartPage() {
 
             <hr />
           </div>
-          <h3>Total: ${subtotal.toFixed(2)}</h3>
+          <h3>Total: ${totalPrice}</h3>
+          <button className="btn btn-success" onClick={() => navigate(-1)}>
+            Previous Page
+          </button>
           <button
             className="btn btn-secondary"
             onClick={() => navigate('/books')}

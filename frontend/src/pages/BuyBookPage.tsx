@@ -41,6 +41,7 @@ function BuyBookPage() {
             type="number"
             placeholder="Enter quantity of book to buy"
             step="1"
+            min={1}
             value={quantity}
             onChange={
               (x) => setBookQuantity(Number(x.target.value)) // Multiply amount chosen by price per book

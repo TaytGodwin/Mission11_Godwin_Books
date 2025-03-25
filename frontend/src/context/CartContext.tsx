@@ -46,13 +46,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Calculate numItems and totalPrice using useMemo which watches for changes (like useEffect)
-  const numItems = useMemo(
-    () => cart.reduce((sum, item) => sum + item.quantity, 0),
-    [cart] // Watches to see if cart changes
+  const numItems = parseFloat(
+    useMemo(
+      () => cart.reduce((sum, item) => sum + item.quantity, 0),
+      [cart] // Watches to see if cart changes
+    ).toFixed(2)
   );
-  const totalPrice = useMemo(
-    () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cart] // Watches to see if cart changes
+  const totalPrice = parseFloat(
+    useMemo(
+      () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      [cart] // Watches to see if cart changes
+    ).toFixed(2)
   );
 
   return (
