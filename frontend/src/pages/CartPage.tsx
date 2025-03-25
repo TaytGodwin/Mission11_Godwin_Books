@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 function CartPage() {
   const navigate = useNavigate();
-  const { cart, removeFromCart } = useCart(); // Gets the context file that was build
+  const { cart, numItems, totalPrice, clearCart, removeFromCart } = useCart(); // Gets the context file that was build
   const [subtotal, setSubtotal] = useState(0);
   useEffect(() => {
     const sumTotal = cart.reduce((tot, c) => tot + c.price * c.quantity, 0);
@@ -40,7 +40,10 @@ function CartPage() {
                     Subtotal: ${item.quantity * item.price}
                     <br />
                     <br />
-                    <button onClick={() => removeFromCart(item.bookID)}>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => removeFromCart(item.bookID)}
+                    >
                       Remove
                     </button>
                   </li>
@@ -51,7 +54,17 @@ function CartPage() {
             <hr />
           </div>
           <h3>Total: ${subtotal.toFixed(2)}</h3>
-          <button onClick={() => navigate('/books')}>Continue Browsing</button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate('/books')}
+          >
+            Continue Browsing
+          </button>
+          <br />
+          <br />
+          <button className="btn btn-danger" onClick={() => clearCart()}>
+            Clear Cart
+          </button>
         </div>
       </div>
     </>

@@ -26,15 +26,27 @@ function BuyBookPage() {
     <>
       <WelcomeBand />
       <div>
-        <input
-          type="number"
-          placeholder="Enter quantity of book to buy"
-          step="1"
-          value={quantity}
-          onChange={
-            (x) => setBookQuantity(Number(x.target.value)) // Multiply amount chosen by price per book
-          }
-        />
+        <h1>
+          <strong>Book: </strong>
+          {title}
+        </h1>
+        <p>
+          <strong>Price: </strong>
+          {price}
+        </p>
+        <div className="mb-3">
+          <label className="form-label">Number to buy:</label>
+          <input
+            className="form-control form-control-sm"
+            type="number"
+            placeholder="Enter quantity of book to buy"
+            step="1"
+            value={quantity}
+            onChange={
+              (x) => setBookQuantity(Number(x.target.value)) // Multiply amount chosen by price per book
+            }
+          />
+        </div>
       </div>
       {/* The following button will go back to the last page */}
       <button className="btn btn-success" onClick={() => navigate(-1)}>

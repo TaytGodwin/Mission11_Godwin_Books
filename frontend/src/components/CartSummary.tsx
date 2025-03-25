@@ -3,8 +3,7 @@ import { useCart } from '../context/CartContext';
 
 const CartSummary = () => {
   const navigate = useNavigate();
-  const { cart } = useCart();
-  const totalAmount = cart.reduce((sum, item) => sum + item.price, 0); // Get sum of cart and default 0
+  const { numItems, totalPrice } = useCart();
   return (
     <>
       <div
@@ -13,7 +12,7 @@ const CartSummary = () => {
           top: '10px',
           right: '20px',
           background: '#f8f9fa',
-          padding: '10px 15 px',
+          padding: '5px 10px',
           borderRadius: '8px',
           cursor: 'pointer',
           display: 'flex',
@@ -23,7 +22,12 @@ const CartSummary = () => {
         }}
         onClick={() => navigate('/cart')}
       >
-        🛒<strong>{cart.numItems}</strong>
+        🛒
+        <strong>
+          ${totalPrice}
+          <br />
+          {numItems} Books
+        </strong>
       </div>
     </>
   );
