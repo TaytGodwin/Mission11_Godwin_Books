@@ -34,45 +34,6 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   }, [pageSize, pageNum, totalBooks, sortByPreference, selectedCategories]); // app will watch to see if these change
   return (
     <>
-      {Books.map((b) => (
-        <div id="projectCard" className="card shadow-lg mb-4" key={b.bookID}>
-          <h3 className="card-title">{b.title}</h3>
-          <div className="card-body">
-            <ul className="list-unstyled">
-              <li className="list-group-item">
-                <strong>Author:</strong> {b.author}
-              </li>
-              <li className="list-group-item">
-                <strong>Publisher:</strong> {b.publisher}
-              </li>
-              <li className="list-group-item">
-                <strong>ISBN:</strong> {b.isbn}
-              </li>
-              <li className="list-group-item">
-                <strong>Classification:</strong> {b.classification}
-              </li>
-              <li className="list-group-item">
-                <strong>Category:</strong> {b.category}
-              </li>
-              <li className="list-group-item">
-                <strong>Page Count:</strong> {b.pageCount}
-              </li>
-              <li className="list-group-item">
-                <strong>Price:</strong> ${b.price}
-              </li>
-            </ul>
-            <button
-              className="btn btn-success"
-              onClick={() => navigate(`/buy/${b.title}/${b.bookID}/${b.price}`)}
-            >
-              Purchase Book
-            </button>
-          </div>
-        </div>
-      ))}
-      <br />
-      <br />
-
       <nav className="d-flex justify-content-center mt-4">
         <ul className="pagination">
           <li className={`page-item ${pageNum === 1 ? 'disabled' : ''}`}>
@@ -148,6 +109,45 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
           </select>
         </div>
       </div>
+      <br />
+      {Books.map((b) => (
+        <div id="projectCard" className="card shadow-lg mb-4" key={b.bookID}>
+          <h3 className="card-title">{b.title}</h3>
+          <div className="card-body">
+            <ul className="list-unstyled">
+              <li className="list-group-item">
+                <strong>Author:</strong> {b.author}
+              </li>
+              <li className="list-group-item">
+                <strong>Publisher:</strong> {b.publisher}
+              </li>
+              <li className="list-group-item">
+                <strong>ISBN:</strong> {b.isbn}
+              </li>
+              <li className="list-group-item">
+                <strong>Classification:</strong> {b.classification}
+              </li>
+              <li className="list-group-item">
+                <strong>Category:</strong> {b.category}
+              </li>
+              <li className="list-group-item">
+                <strong>Page Count:</strong> {b.pageCount}
+              </li>
+              <li className="list-group-item">
+                <strong>Price:</strong> ${b.price}
+              </li>
+            </ul>
+            <button
+              className="btn btn-success"
+              onClick={() => navigate(`/buy/${b.title}/${b.bookID}/${b.price}`)}
+            >
+              Purchase Book
+            </button>
+          </div>
+        </div>
+      ))}
+      <br />
+      <br />
     </>
   );
 }

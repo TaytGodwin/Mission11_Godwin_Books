@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import WelcomeBand from '../components/WelcomeBand';
 import { useCart } from '../context/CartContext';
 import { CartItem } from '../types/CartItem';
-import { useEffect, useState } from 'react';
 
 function CartPage() {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ function CartPage() {
               <ul>
                 {cart.map((item: CartItem) => (
                   <li className="list-unstyled" key={item.bookID}>
-                    <hr />
+                    <hr className="border-primary" />
                     <strong style={{ fontSize: '24px' }}>{item.title}</strong>
                     <br />
                     Price per book: ${item.price.toFixed(2)}
@@ -47,7 +46,7 @@ function CartPage() {
               </ul>
             )}
 
-            <hr />
+            <hr className="border-primary" />
           </div>
           <h3>Total: ${totalPrice}</h3>
           <button className="btn btn-success" onClick={() => navigate(-1)}>
