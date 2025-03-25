@@ -13,7 +13,8 @@ function BuyBookPage() {
     const newItem: CartItem = {
       bookID: Number(bookID),
       title: title || 'No book found',
-      price: Number(price) * quantity,
+      price: Number(price),
+      quantity: quantity,
     };
     // send item to the cart
     addToCart(newItem);

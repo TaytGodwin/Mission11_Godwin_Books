@@ -23,7 +23,7 @@ const CartSummary = () => {
         }}
         onClick={() => navigate('/cart')}
       >
-        🛒<strong>{totalAmount.toFixed(2)}</strong>
+        🛒<strong>{cart.numItems}</strong>
       </div>
     </>
   );

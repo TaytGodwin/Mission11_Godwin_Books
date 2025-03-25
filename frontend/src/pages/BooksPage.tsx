@@ -16,7 +16,10 @@ function BooksPage() {
               setSelectedCategories={setSelectedCategories} // pass the function to set these categories
             />
           </div>
-          <div className="col-md-9">
+          <div
+            className="col-md-9"
+            style={{ maxHeight: '600px', overflowY: 'auto' }}
+          >
             <BookList selectedCategories={selectedCategories} />
           </div>
         </div>

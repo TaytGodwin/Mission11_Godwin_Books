@@ -5,12 +5,14 @@ import BuyBookPage from './pages/BuyBookPage';
 import CartPage from './pages/CartPage';
 import { CartProvider } from './context/CartContext';
 import CartSummary from './components/CartSummary';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
     <>
       <CartProvider>
         <Router>
+          <NavBar />
           <CartSummary />
           <Routes>
             {/* Default route */}
