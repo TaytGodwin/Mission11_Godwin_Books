@@ -32,7 +32,7 @@ function CartPage() {
                     <br />
                     Quantity: {item.quantity} book(s)
                     <br />
-                    Subtotal: ${item.quantity * item.price}
+                    Subtotal: ${(item.quantity * item.price).toFixed(2)}
                     <br />
                     <br />
                     <button
