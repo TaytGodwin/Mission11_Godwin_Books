@@ -5,7 +5,7 @@ import { CartItem } from '../types/CartItem';
 
 function CartPage() {
   const navigate = useNavigate();
-  const { cart, totalPrice, clearCart, removeFromCart } = useCart(); // Gets the context file that was build
+  const { cart, totalPrice, numItems, clearCart, removeFromCart } = useCart(); // Gets the context file that was build
 
   return (
     <>
@@ -49,6 +49,10 @@ function CartPage() {
             <hr className="border-primary" />
           </div>
           <h3>Total: ${totalPrice}</h3>
+          <br />
+          Total Items: {numItems}
+          <br />
+          <br />
           <button className="btn btn-success" onClick={() => navigate(-1)}>
             Previous Page
           </button>
