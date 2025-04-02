@@ -14,7 +14,7 @@ function CategoryFilter({
       // This gets all category types from the api
       try {
         const response = await fetch(
-          'https://localhost:5000/api/Book/GetCategories'
+          'https://mission13backend.azurewebsites.net/api/Book/GetCategories'
         );
         const data = await response.json();
         setCategories(data);

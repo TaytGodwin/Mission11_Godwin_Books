@@ -6,6 +6,7 @@ import CartPage from './pages/CartPage';
 import { CartProvider } from './context/CartContext';
 import CartSummary from './components/CartSummary';
 import NavBar from './components/NavBar';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               element={<BuyBookPage />}
             ></Route>
             <Route path="/cart" element={<CartPage />}></Route>
+            <Route path="/admin" element={<AdminPage />}></Route>
           </Routes>
         </Router>
       </CartProvider>

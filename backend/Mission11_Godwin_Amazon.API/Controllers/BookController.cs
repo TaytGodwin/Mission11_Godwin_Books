@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mission11_Godwin_Amazon.API.Data;
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Mission11_Godwin_Amazon.API.Controllers
 {
@@ -53,5 +54,55 @@ namespace Mission11_Godwin_Amazon.API.Controllers
             return Ok(AllCategories);
         }
 
+        // To add books
+        [HttpPost("AddBook")]
+        public IActionResult AddBook([FromBody] Book newBook) // Frombody means it is coming in the body as json
+        {
+            _bookDbContext.Books.Add(newBook);
+            _bookDbContext.SaveChanges();
+
+            return Ok(newBook);
+        }
+
+        // To edit books
+        [HttpPut("UpdateBook/{BookId}")]
+        public IActionResult UpdateBook(int BookId, [FromBody] Book updatedBook)
+        {
+            var existingBook = _bookDbContext.Books.Find(BookId); // Find the project to edit
+
+            // Update everything
+            existingBook.Title = updatedBook.Title;
+            existingBook.Author = updatedBook.Author;
+            existingBook.Publisher = updatedBook.Publisher;
+            existingBook.ISBN = updatedBook.ISBN;
+            existingBook.Classification = updatedBook.Classification;
+            existingBook.Category = updatedBook.Category;
+            existingBook.PageCount = updatedBook.PageCount;
+            existingBook.Price = updatedBook.Price;
+
+            // Update database with edits
+            _bookDbContext.Books.Update(existingBook);
+            _bookDbContext.SaveChanges();
+
+            return Ok(existingBook);
+        }
+
+        // To delete a book
+        [HttpDelete("DeleteBook/{BookId}")]
+        public IActionResult DeleteBook(int BookId)
+        {
+            var book = _bookDbContext.Books.Find(BookId); // Get the book
+
+            if (book == null)
+            {
+                return NotFound(new {message = "Project not found"});
+            }
+
+            // Save changes to database
+            _bookDbContext.Books.Remove(book);
+            _bookDbContext.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

@@ -30,6 +30,11 @@ const NavBar = () => {
                 My Cart
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" onClick={() => navigate('/admin')}>
+                Admin Page
+              </a>
+            </li>
           </ul>
         </div>
       </nav>
