@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "undefined/subscriptions/e5611667-a2d2-46c8-a0ae-f06b70ed3c3f/resourceGroups/appsvc_windows_centralus/providers/Microsoft.Web/sites/Mission13Godwin",
+  "appService.deploySubpath": "backend\\Mission11_Godwin_Amazon.API\\publish"
+}
