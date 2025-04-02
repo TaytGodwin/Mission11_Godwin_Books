@@ -15,8 +15,6 @@ const AdminPage = () => {
   const [totalPages, setTotalPages] = useState<number>(0); // Number of separate pages you will have
   const [showForm, setShowForm] = useState(false);
   const [editingBook, setEditBook] = useState<Book | null>(null);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
   const [sortByPreference, setSortByPreference] = useState('Title'); // To help the system know what to order the books by
 
   useEffect(() => {
@@ -28,7 +26,7 @@ const AdminPage = () => {
           pageSize,
           pageNum,
           sortByPreference,
-          selectedCategories
+          []
         );
         setBooks(data.books);
         setTotalPages(Math.ceil(data.totalNumBooks / pageSize));
@@ -41,7 +39,7 @@ const AdminPage = () => {
 
     // Call this function
     loadBooks();
-  }, [pageSize, pageNum]);
+  }, [pageSize, sortByPreference, pageNum]);
 
   if (loading) return <p>Loading books...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
@@ -63,6 +61,7 @@ const AdminPage = () => {
   return (
     <div>
       <h1>Admin - Projects</h1>
+
       {!showForm && (
         <button
           className="btn btn-success mb-3"
@@ -77,12 +76,9 @@ const AdminPage = () => {
         <AddBookForm
           onSuccess={() => {
             setShowForm(false);
-            fetchBooksCall(
-              pageSize,
-              pageNum,
-              sortByPreference,
-              selectedCategories
-            ).then((data) => setBooks(data.books));
+            fetchBooksCall(pageSize, pageNum, sortByPreference, []).then(
+              (data) => setBooks(data.books)
+            );
           }}
           onCancel={() => setShowForm(false)}
         />
@@ -93,12 +89,9 @@ const AdminPage = () => {
             book={editingBook}
             onSuccess={() => {
               setEditBook(null);
-              fetchBooksCall(
-                pageSize,
-                pageNum,
-                sortByPreference,
-                selectedCategories
-              ).then((data) => setBooks(data.books));
+              fetchBooksCall(pageSize, pageNum, sortByPreference, []).then(
+                (data) => setBooks(data.books)
+              );
             }}
             onCancel={() => setEditBook(null)}
           />

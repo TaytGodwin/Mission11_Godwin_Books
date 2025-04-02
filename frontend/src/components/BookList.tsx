@@ -46,7 +46,6 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
 
   return (
     <>
-      {' '}
       <Pagination
         currentPage={pageNum}
         totalPages={totalPages}
