@@ -22,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(x => x.WithOrigins("http://localhost:3020"));
+app.UseCors(x => x.WithOrigins("http://localhost:3020", "https://salmon-tree-037c9211e.6.azurestaticapps.net"));
 
 app.UseHttpsRedirection();
 
