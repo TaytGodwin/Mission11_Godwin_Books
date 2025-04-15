@@ -16,7 +16,7 @@ builder.Services.AddCors(options => {
     options.AddPolicy("AllowReactApp",
         policy => 
         {
-            policy.WithOrigins("http://localhost:3016", "https://salmon-tree-037c9211e.6.azurestaticapps.net/")
+            policy.WithOrigins("http://localhost:3016", "https://salmon-tree-037c9211e.6.azurestaticapps.net")
             .AllowCredentials() // Cookies are added with this
             .AllowAnyHeader()
             .AllowAnyMethod();
